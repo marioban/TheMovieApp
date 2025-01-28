@@ -6,15 +6,12 @@
 //
 
 import SwiftUI
-import SwiftData
 
-@Model
-class Genre {
-    @Attribute(.unique) var id: Int
-    var name: String
+struct Genre: Decodable {
+    let id: Int
+    let name: String
+}
 
-    init(id: Int, name: String) {
-        self.id = id
-        self.name = name
-    }
+struct GenreResponse: Decodable {
+    let genres: [Genre]
 }

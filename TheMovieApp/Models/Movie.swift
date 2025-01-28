@@ -6,8 +6,37 @@
 //
 
 import SwiftUI
-
 import SwiftData
+
+struct MovieDTO: Decodable {
+    let id: Int
+    let adult: Bool
+    let backdropPath: String
+    let genreIDs: [Int]
+    let originalLanguage: String
+    let originalTitle: String
+    let overview: String
+    let popularity: Double
+    let posterPath: String
+    let releaseDate: String
+    let title: String
+    let video: Bool
+    let voteAverage: Double
+    let voteCount: Int
+
+    private enum CodingKeys: String, CodingKey {
+        case id, adult, overview, popularity, title, video
+        case backdropPath = "backdrop_path"
+        case genreIDs = "genre_ids"
+        case originalLanguage = "original_language"
+        case originalTitle = "original_title"
+        case posterPath = "poster_path"
+        case releaseDate = "release_date"
+        case voteAverage = "vote_average"
+        case voteCount = "vote_count"
+    }
+}
+
 
 @Model
 class Movie {
@@ -25,6 +54,7 @@ class Movie {
     var video: Bool
     var voteAverage: Double
     var voteCount: Int
+    var favorite: Bool = false
 
     init(
         id: Int,
@@ -40,7 +70,8 @@ class Movie {
         title: String,
         video: Bool,
         voteAverage: Double,
-        voteCount: Int
+        voteCount: Int,
+        favorite: Bool = false
     ) {
         self.id = id
         self.adult = adult
@@ -56,5 +87,26 @@ class Movie {
         self.video = video
         self.voteAverage = voteAverage
         self.voteCount = voteCount
+        self.favorite = favorite
+    }
+
+    // Convenience initializer for DTO conversion
+    convenience init(dto: MovieDTO) {
+        self.init(
+            id: dto.id,
+            adult: dto.adult,
+            backdropPath: dto.backdropPath,
+            genreIDs: dto.genreIDs,
+            originalLanguage: dto.originalLanguage,
+            originalTitle: dto.originalTitle,
+            overview: dto.overview,
+            popularity: dto.popularity,
+            posterPath: dto.posterPath,
+            releaseDate: dto.releaseDate,
+            title: dto.title,
+            video: dto.video,
+            voteAverage: dto.voteAverage,
+            voteCount: dto.voteCount
+        )
     }
 }
