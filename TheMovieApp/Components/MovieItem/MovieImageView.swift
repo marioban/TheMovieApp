@@ -17,9 +17,9 @@ struct MovieImageView: View {
                     image
                         .image?.resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: .infinity, height: 200)
+                        .frame(width: .infinity)
                         .clipped()
-                        .cornerRadius(8)
+                        .cornerRadius(20)
                 }
                 
                 MovieImageOverlayView(year: "2021")

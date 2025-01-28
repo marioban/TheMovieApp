@@ -13,17 +13,29 @@ struct MovieItemView: View {
         ZStack (alignment: .leading) {
             HStack {
                 MovieImageView(imageUrl: "https://media.themoviedb.org/t/p/w300_and_h450_bestv2/3bhkrj58Vtu7enYsRolD1fZdja1.jpg")
-                
+                    .padding(.trailing)
                 
                 VStack(alignment: .leading) {
-                    Text("The Matrix Resurrections")
-                        .font(.headline)
+                    Text("Fantastic beasts: The crimes of Grindelwald")
+                        .lineLimit(2)
+                        .font(.title2)
+                        .fontWeight(.semibold)
                         .foregroundColor(.white)
                     
-                    Text("Action, Adventure, Sci-Fi")
-                        .font(.caption)
+                    Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam voluptua.")
+                        .font(.subheadline)
+                        .fontWeight(.thin)
                         .foregroundColor(.white)
+                    
+                    
+                    
+                    HStack {
+                        Spacer()
+                        MovieButtonsView()
+                    }
                 }
+                .padding(.trailing,8)
+                .padding(.vertical,4)
             }
         }
         .customBackground()
