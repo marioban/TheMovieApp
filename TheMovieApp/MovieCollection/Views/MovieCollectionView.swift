@@ -9,7 +9,20 @@ import SwiftUI
 
 struct MovieCollectionView: View {
     var body: some View {
-        Text("MOVIE COLLECTION")
+        NavigationView {
+            VStack {
+                Text("MOVIE COLLECTION")
+            }
+            .customBackground()
+        }
+        .toolbar{
+            ToolbarItem(placement: .topBarLeading) {
+                Text("Top rated")
+                    .font(.largeTitle)
+                    .bold()
+                    .foregroundStyle(Color.white)
+            }
+        }
     }
 }
 

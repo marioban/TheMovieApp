@@ -21,12 +21,13 @@ struct MovieItemView: View {
                         .font(.title2)
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
+                        .padding(.bottom,8)
                     
                     Text("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam voluptua.")
                         .font(.subheadline)
-                        .fontWeight(.thin)
+                        .fontWeight(.regular)
                         .foregroundColor(.white)
-                    
+                        .padding(.bottom,8)
                     
                     
                     HStack {
@@ -38,7 +39,7 @@ struct MovieItemView: View {
                 .padding(.vertical,4)
             }
         }
-        .customBackground()
+        .movieItemBackground()
     }
 }
 

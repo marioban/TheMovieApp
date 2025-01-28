@@ -1,5 +1,5 @@
 //
-//  BackgroundModifier.swift
+//  MovieItemBackgroundModifier.swift
 //  TheMovieApp
 //
 //  Created by Mario Ban on 28.01.2025..
@@ -7,18 +7,18 @@
 
 import SwiftUI
 
-struct BackgroundModifier: ViewModifier {
+struct MovieItemBackgroundModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .background(
-                Color(red: 0, green: 0.067, blue: 0.157) 
+                Color(red: 0.149, green: 0.149, blue: 0.149)
                     .ignoresSafeArea()
             )
     }
 }
 
 extension View {
-    func customBackground() -> some View {
-        self.modifier(BackgroundModifier())
+    func movieItemBackground() -> some View {
+        self.modifier(MovieItemBackgroundModifier())
     }
 }
