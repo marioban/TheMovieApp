@@ -9,19 +9,21 @@ import SwiftUI
 
 struct MovieImageView: View {
     let imageUrl: String?
-    
+
     var body: some View {
         if let imageUrlString = imageUrl, let imageUrl = URL(string: imageUrlString) {
             ZStack(alignment: .bottom) {
                 AsyncImage(url: imageUrl) { image in
                     image
-                        .image?.resizable()
+                        .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: .infinity)
+                        .frame(maxWidth: .infinity)
                         .clipped()
                         .cornerRadius(20)
+                } placeholder: {
+                    PlaceholderView()
                 }
-                
+
                 MovieImageOverlayView(year: "2021")
             }
         } else {

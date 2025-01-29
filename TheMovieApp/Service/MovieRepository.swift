@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 
+
 protocol MovieRepositoryProtocol {
     func getTopRatedMovies(page: Int) async throws -> [Movie]
     func getSimilarMovies(movieID: Int) async throws -> [Movie]
@@ -17,6 +18,7 @@ protocol MovieRepositoryProtocol {
     func removeFavoriteMovie(_ movie: Movie) async throws
 }
 
+/*
 @APIServiceActor
 class MovieRepository: MovieRepositoryProtocol {
     private let apiService: APIService
@@ -55,3 +57,4 @@ class MovieRepository: MovieRepositoryProtocol {
         return try await apiService.fetchSimilarMovies(movieID: movieID)
     }
 }
+ /**/*/

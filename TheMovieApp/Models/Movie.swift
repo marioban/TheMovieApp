@@ -11,13 +11,14 @@ import SwiftData
 struct MovieDTO: Decodable {
     let id: Int
     let adult: Bool
-    let backdropPath: String
-    let genreIDs: [Int]
+    let backdropPath: String?
+    let genreIDs: [Int]?
+    let genres: [Genre]?
     let originalLanguage: String
     let originalTitle: String
     let overview: String
     let popularity: Double
-    let posterPath: String
+    let posterPath: String?
     let releaseDate: String
     let title: String
     let video: Bool
@@ -25,7 +26,7 @@ struct MovieDTO: Decodable {
     let voteCount: Int
 
     private enum CodingKeys: String, CodingKey {
-        case id, adult, overview, popularity, title, video
+        case id, adult, overview, popularity, title, video, genres
         case backdropPath = "backdrop_path"
         case genreIDs = "genre_ids"
         case originalLanguage = "original_language"
@@ -37,76 +38,37 @@ struct MovieDTO: Decodable {
     }
 }
 
-
-@Model
-class Movie {
-    @Attribute(.unique) var id: Int
-    var adult: Bool
-    var backdropPath: String
-    var genreIDs: [Int]
-    var originalLanguage: String
-    var originalTitle: String
-    var overview: String
-    var popularity: Double
-    var posterPath: String
-    var releaseDate: String
-    var title: String
-    var video: Bool
-    var voteAverage: Double
-    var voteCount: Int
+final class Movie: @unchecked Sendable {
+    let id: Int
+    let adult: Bool
+    let backdropPath: String?
+    let genreIDs: [Int]
+    let originalLanguage: String
+    let originalTitle: String
+    let overview: String
+    let popularity: Double
+    let posterPath: String?
+    let releaseDate: String
+    let title: String
+    let video: Bool
+    let voteAverage: Double
+    let voteCount: Int
     var favorite: Bool = false
 
-    init(
-        id: Int,
-        adult: Bool,
-        backdropPath: String,
-        genreIDs: [Int],
-        originalLanguage: String,
-        originalTitle: String,
-        overview: String,
-        popularity: Double,
-        posterPath: String,
-        releaseDate: String,
-        title: String,
-        video: Bool,
-        voteAverage: Double,
-        voteCount: Int,
-        favorite: Bool = false
-    ) {
-        self.id = id
-        self.adult = adult
-        self.backdropPath = backdropPath
-        self.genreIDs = genreIDs
-        self.originalLanguage = originalLanguage
-        self.originalTitle = originalTitle
-        self.overview = overview
-        self.popularity = popularity
-        self.posterPath = posterPath
-        self.releaseDate = releaseDate
-        self.title = title
-        self.video = video
-        self.voteAverage = voteAverage
-        self.voteCount = voteCount
-        self.favorite = favorite
-    }
-
-    // Convenience initializer for DTO conversion
-    convenience init(dto: MovieDTO) {
-        self.init(
-            id: dto.id,
-            adult: dto.adult,
-            backdropPath: dto.backdropPath,
-            genreIDs: dto.genreIDs,
-            originalLanguage: dto.originalLanguage,
-            originalTitle: dto.originalTitle,
-            overview: dto.overview,
-            popularity: dto.popularity,
-            posterPath: dto.posterPath,
-            releaseDate: dto.releaseDate,
-            title: dto.title,
-            video: dto.video,
-            voteAverage: dto.voteAverage,
-            voteCount: dto.voteCount
-        )
+    init(dto: MovieDTO) {
+        self.id = dto.id
+        self.adult = dto.adult
+        self.backdropPath = dto.backdropPath
+        self.genreIDs = dto.genreIDs ?? dto.genres?.map { $0.id } ?? []
+        self.originalLanguage = dto.originalLanguage
+        self.originalTitle = dto.originalTitle
+        self.overview = dto.overview
+        self.popularity = dto.popularity
+        self.posterPath = dto.posterPath
+        self.releaseDate = dto.releaseDate
+        self.title = dto.title
+        self.video = dto.video
+        self.voteAverage = dto.voteAverage
+        self.voteCount = dto.voteCount
     }
 }

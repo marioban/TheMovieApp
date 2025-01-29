@@ -18,6 +18,7 @@ struct MovieImageOverlayView: View {
         }
         .frame(alignment: .center)
         .padding()
+        .frame(maxWidth: .infinity)
         .background(
             LinearGradient(
                 gradient: Gradient(colors: [Color.black, Color.clear]),
