@@ -54,6 +54,7 @@ final class Movie: @unchecked Sendable {
     let voteAverage: Double
     let voteCount: Int
     var favorite: Bool = false
+    var watched: Bool = false
 
     init(dto: MovieDTO) {
         self.id = dto.id

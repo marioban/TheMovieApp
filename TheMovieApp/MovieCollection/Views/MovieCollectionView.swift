@@ -20,7 +20,7 @@ struct MovieCollectionView: View {
             VStack {
                 MovieListView(
                     movies: viewModel.movies,
-                    isLoadingNextPage: viewModel.isLoadingNextPage 
+                    isLoadingNextPage: viewModel.isLoadingNextPage
                 ) { movie in
                     loadNextPageIfNeeded(for: movie)
                 }
