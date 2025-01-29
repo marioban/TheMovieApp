@@ -14,6 +14,17 @@ struct MovieDetailsView: View {
     let releaseDate: String
     let overview: String
 
+    private var releaseYear: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        if let date = dateFormatter.date(from: releaseDate) {
+            let calendar = Calendar.current
+            return "\(calendar.component(.year, from: date))"
+        }
+        return "N/A"
+    }
+    
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .center, spacing: 16) {
@@ -39,11 +50,19 @@ struct MovieDetailsView: View {
                         .foregroundColor(.white)
                         .padding(.horizontal)
 
-                    Text("Released: \(releaseDate)")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
+                    Text("Release year:")
+                        .font(.title2)
+                        .foregroundColor(.white)
+                        .padding(.horizontal)
+                    Text(releaseYear)
+                        .font(.title3)
+                        .foregroundColor(.white)
                         .padding(.horizontal)
 
+                    Text("Description:")
+                        .font(.title2)
+                        .foregroundColor(.white)
+                        .padding(.horizontal)
                     Text(overview)
                         .font(.body)
                         .foregroundColor(.white)
