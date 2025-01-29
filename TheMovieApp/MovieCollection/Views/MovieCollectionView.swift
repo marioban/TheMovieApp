@@ -17,22 +17,17 @@ struct MovieCollectionView: View {
 
     var body: some View {
         NavigationView {
-            ScrollView {
-                LazyVStack(alignment: .leading, spacing: 16) {
-                    ForEach(viewModel.movies, id: \.id) { movie in
-                        MovieItemCardView(movie: movie)
-                            .padding(.horizontal)
-                            .padding(.bottom,8)
-                            
-                    }
+            VStack {
+                MovieListView(
+                    movies: viewModel.movies,
+                    isLoadingNextPage: viewModel.isLoadingNextPage 
+                ) { movie in
+                    loadNextPageIfNeeded(for: movie)
                 }
             }
-            .background(Color.gray.opacity(0.2))
             .navigationTitle("Top Rated Movies")
             .onAppear {
-                Task {
-                    await viewModel.fetchTopRatedMovies(page: 1)
-                }
+                fetchMovies()
             }
             .customBackground()
         }
@@ -45,8 +40,16 @@ struct MovieCollectionView: View {
             }
         }
     }
-}
 
-#Preview {
-    MovieCollectionView()
+    private func fetchMovies() {
+        Task {
+            await viewModel.fetchTopRatedMovies(page: 1)
+        }
+    }
+
+    private func loadNextPageIfNeeded(for movie: Movie) {
+        Task {
+            await viewModel.loadNextPageIfNeeded(currentMovie: movie)
+        }
+    }
 }
