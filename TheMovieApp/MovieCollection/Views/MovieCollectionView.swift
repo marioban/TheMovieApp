@@ -24,13 +24,18 @@ struct MovieCollectionView: View {
                 ) { movie in
                     loadNextPageIfNeeded(for: movie)
                 }
+                .refreshable {
+                    await fetchMovies()
+                }
             }
             .navigationTitle("Top Rated Movies")
             .onAppear {
-                fetchMovies()
+                Task {
+                    await fetchMovies()
+                }
             }
-            .customBackground()
         }
+        .customBackground()
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Text("Top rated")
@@ -41,10 +46,8 @@ struct MovieCollectionView: View {
         }
     }
 
-    private func fetchMovies() {
-        Task {
-            await viewModel.fetchTopRatedMovies(page: 1)
-        }
+    private func fetchMovies() async {
+        await viewModel.fetchTopRatedMovies(page: 1)
     }
 
     private func loadNextPageIfNeeded(for movie: Movie) {

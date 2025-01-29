@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct MovieItemCardView: View {
+    @Environment(\.modelContext) private var modelContext
     let movie: Movie
     
     var body: some View {
         ZStack (alignment: .leading) {
             HStack {
-                MovieImageView(imageUrl: "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? "")")
+                MovieImageView(imageUrl: "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? "")", releaseDate: movie.releaseDate)
                     .padding(.trailing)
                 
                 VStack(alignment: .leading) {
@@ -34,7 +35,7 @@ struct MovieItemCardView: View {
                     
                     HStack {
                         Spacer()
-                        MovieButtonsView()
+                        MovieButtonsView(movie: movie)
                     }
                 }
                 .padding(.trailing,8)

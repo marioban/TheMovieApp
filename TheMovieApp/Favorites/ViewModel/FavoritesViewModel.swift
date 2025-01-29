@@ -6,31 +6,64 @@
 //
 
 import SwiftUI
-import Combine
+import SwiftData
 
-/*
 @MainActor
 class FavoritesViewModel: ObservableObject {
+    private var modelContext: ModelContext?
+
     @Published var favoriteMovies: [Movie] = []
-    @Published var errorMessage: String?
-    
-    private let repository: MovieRepository
+    @Published var watchedMovies: [Movie] = []
 
-    init(repository: MovieRepository) {
-        self.repository = repository
+    init(modelContext: ModelContext?) {
+        self.modelContext = modelContext
     }
 
-    func fetchFavoriteMovies() async {
-        favoriteMovies = await repository.getFavoriteMovies()
+    func setModelContext(_ modelContext: ModelContext) {
+        self.modelContext = modelContext
+        loadMovies()
     }
 
-    func removeFavorite(_ movie: Movie) async {
+    func loadMovies() {
+        guard let modelContext else {
+            print("ModelContext is nil, cannot load movies.")
+            return
+        }
+        
         do {
-            try await repository.removeFavoriteMovie(movie)
-            await fetchFavoriteMovies()
+            let favoriteFetch = FetchDescriptor<Movie>(predicate: #Predicate { $0.favorite })
+            let watchedFetch = FetchDescriptor<Movie>(predicate: #Predicate { $0.watched })
+
+            favoriteMovies = try modelContext.fetch(favoriteFetch)
+            watchedMovies = try modelContext.fetch(watchedFetch)
+
+            print("✅ Loaded \(favoriteMovies.count) favorite movies")
+            print("✅ Loaded \(watchedMovies.count) watched movies")
+
         } catch {
-            errorMessage = error.localizedDescription
+            print("❌ Failed to fetch movies: \(error.localizedDescription)")
+        }
+    }
+
+    func toggleFavorite(for movie: Movie) {
+        guard let modelContext else { return }
+        movie.favorite.toggle()
+        saveChanges()
+    }
+
+    func toggleWatched(for movie: Movie) {
+        guard let modelContext else { return }
+        movie.watched.toggle()
+        saveChanges()
+    }
+
+    private func saveChanges() {
+        guard let modelContext else { return }
+        do {
+            try modelContext.save()
+            loadMovies() // Refresh UI
+        } catch {
+            print("❌ Failed to save changes: \(error.localizedDescription)")
         }
     }
 }
-*/

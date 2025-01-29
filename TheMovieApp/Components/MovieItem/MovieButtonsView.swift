@@ -6,37 +6,49 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MovieButtonsView: View {
-    @State private var isFavorite: Bool = false
-    @State private var isWatched: Bool = false
+    @Environment(\.modelContext) private var modelContext
+    private let movie: Movie
+    @StateObject private var viewModel: MovieViewModel
+    
+    init(movie: Movie) {
+        self.movie = movie
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try! ModelContainer(for: Movie.self, configurations: config)
+        _viewModel = StateObject(wrappedValue: MovieViewModel(movie: movie, modelContext: container.mainContext))
+    }
     
     var body: some View {
         HStack {
             Button {
-                self.isFavorite.toggle()
+                viewModel.updateModelContext(modelContext)
+                viewModel.toggleFavorite()
             } label: {
                 ZStack {
-                    favoriteImage(Image(systemName: "star.fill"), show: isFavorite)
-                    favoriteImage(Image(systemName: "star"), show: !isFavorite)
+                    favoriteImage(Image(systemName: "star.fill"), show: viewModel.movie.favorite)
+                    favoriteImage(Image(systemName: "star"), show: !viewModel.movie.favorite)
                 }
             }
             
             Button {
-                self.isWatched.toggle()
+                viewModel.updateModelContext(modelContext)
+                viewModel.toggleWatched()
             } label: {
                 ZStack {
-                    watchedImage(Image(systemName: "checkmark.seal.fill"), show: isWatched)
-                    watchedImage(Image(systemName: "checkmark.seal"), show: !isWatched)
+                    watchedImage(Image(systemName: "checkmark.seal.fill"), show: viewModel.movie.watched)
+                    watchedImage(Image(systemName: "checkmark.seal"), show: !viewModel.movie.watched)
                 }
             }
         }
         .frame(width: 200)
     }
     
+    // MARK: - Animation Helpers
     func favoriteImage(_ image: Image, show: Bool) -> some View {
         image
-            .tint(isFavorite ? .teal : .teal)
+            .tint(.teal)
             .font(.system(size: 60))
             .scaleEffect(show ? 1 : 0)
             .opacity(show ? 1 : 0)
@@ -45,14 +57,10 @@ struct MovieButtonsView: View {
     
     func watchedImage(_ image: Image, show: Bool) -> some View {
         image
-            .tint(isWatched ? .teal : .teal)
+            .tint(.teal)
             .font(.system(size: 60))
             .scaleEffect(show ? 1 : 0)
             .opacity(show ? 1 : 0)
             .animation(.interpolatingSpring(stiffness: 170, damping: 15), value: show)
     }
-}
-
-#Preview {
-    MovieButtonsView()
 }

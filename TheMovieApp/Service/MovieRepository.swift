@@ -8,53 +8,30 @@
 import SwiftUI
 import SwiftData
 
-
 protocol MovieRepositoryProtocol {
-    func getTopRatedMovies(page: Int) async throws -> [Movie]
-    func getSimilarMovies(movieID: Int) async throws -> [Movie]
-    func getMovieDetails(movieID: Int) async throws -> Movie
-    func getFavoriteMovies() async -> [Movie]
-    func saveFavoriteMovie(_ movie: Movie) async throws
-    func removeFavoriteMovie(_ movie: Movie) async throws
+    func getFavoriteMovies() -> [Movie]
+    func toggleFavorite(movie: Movie)
+    func toggleWatched(movie: Movie)
 }
 
-/*
-@APIServiceActor
 class MovieRepository: MovieRepositoryProtocol {
-    private let apiService: APIService
     private let modelContext: ModelContext
 
-    init(apiService: APIService, modelContext: ModelContext) {
-        self.apiService = apiService
+    init(modelContext: ModelContext) {
         self.modelContext = modelContext
     }
 
-    func getTopRatedMovies(page: Int) async throws -> [Movie] {
-        return try await apiService.fetchTopRatedMovies(page: page)
-    }
-    
-    func getFavoriteMovies() async -> [Movie] {
-        let favorites = try? modelContext.fetch(FetchDescriptor<Movie>())
-        return favorites?.filter { $0.favorite } ?? []
+    func getFavoriteMovies() -> [Movie] {
+        return []
     }
 
-    func saveFavoriteMovie(_ movie: Movie) async throws {
-        movie.favorite = true
-        modelContext.insert(movie)
-        try modelContext.save()
+    func toggleFavorite(movie: Movie) {
+        movie.favorite.toggle()
+        try? modelContext.save()
     }
 
-    func removeFavoriteMovie(_ movie: Movie) async throws {
-        modelContext.delete(movie)
-        try modelContext.save()
-    }
-
-    func getMovieDetails(movieID: Int) async throws -> Movie {
-        return try await apiService.fetchMovieDetails(movieID: movieID)
-    }
-    
-    func getSimilarMovies(movieID: Int) async throws -> [Movie] {
-        return try await apiService.fetchSimilarMovies(movieID: movieID)
+    func toggleWatched(movie: Movie) {
+        movie.watched.toggle()
+        try? modelContext.save()
     }
 }
- /**/*/

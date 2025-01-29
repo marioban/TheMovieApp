@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import SwiftData
 
 @MainActor
 class MovieDetailsViewModel: ObservableObject {
@@ -16,10 +17,12 @@ class MovieDetailsViewModel: ObservableObject {
     
     private let movieID: Int
     private let apiService: APIService
+    private let modelContext: ModelContext
 
-    init(movieID: Int, apiService: APIService) {
+    init(movieID: Int, apiService: APIService, modelContext: ModelContext) {
         self.movieID = movieID
         self.apiService = apiService
+        self.modelContext = modelContext
     }
 
     func fetchMovieDetails() async {
@@ -34,14 +37,16 @@ class MovieDetailsViewModel: ObservableObject {
     }
 
     func toggleFavorite() {
-        guard var movie else { return }
+        guard let movie else { return }
         movie.favorite.toggle()
+        try? modelContext.save()
         self.movie = movie
     }
 
     func toggleWatched() {
-        guard var movie else { return }
+        guard let movie else { return }
         movie.watched.toggle()
+        try? modelContext.save()
         self.movie = movie
     }
 }

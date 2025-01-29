@@ -9,6 +9,17 @@ import SwiftUI
 
 struct MovieImageView: View {
     let imageUrl: String?
+    let releaseDate: String?
+    
+    private var releaseYear: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        if let date = dateFormatter.date(from: releaseDate ?? "") {
+            let calendar = Calendar.current
+            return "\(calendar.component(.year, from: date))"
+        }
+        return "N/A"
+    }
 
     var body: some View {
         if let imageUrlString = imageUrl, let imageUrl = URL(string: imageUrlString) {
@@ -24,14 +35,10 @@ struct MovieImageView: View {
                     PlaceholderView()
                 }
 
-                MovieImageOverlayView(year: "2021")
+                MovieImageOverlayView(year: releaseYear)
             }
         } else {
             PlaceholderView()
         }
     }
-}
-
-#Preview {
-    MovieImageView(imageUrl: "https://media.themoviedb.org/t/p/w300_and_h450_bestv2/3bhkrj58Vtu7enYsRolD1fZdja1.jpg")
 }

@@ -2,7 +2,7 @@
 //  Movie.swift
 //  TheMovieApp
 //
-//  Created by Mario Ban on 28.01.2025..w
+//  Created by Mario Ban on 28.01.2025..
 //
 
 import SwiftUI
@@ -38,38 +38,66 @@ struct MovieDTO: Decodable {
     }
 }
 
-final class Movie: @unchecked Sendable {
-    let id: Int
-    let adult: Bool
-    let backdropPath: String?
-    let genreIDs: [Int]
-    let originalLanguage: String
-    let originalTitle: String
-    let overview: String
-    let popularity: Double
-    let posterPath: String?
-    let releaseDate: String
-    let title: String
-    let video: Bool
-    let voteAverage: Double
-    let voteCount: Int
-    var favorite: Bool = false
-    var watched: Bool = false
+@Model
+final class Movie: Identifiable {
+    var id: Int
+    var adult: Bool
+    var backdropPath: String?
+    var genreIDs: [Int]
+    var originalLanguage: String
+    var originalTitle: String
+    var overview: String
+    var popularity: Double
+    var posterPath: String?
+    var releaseDate: String
+    var title: String
+    var favorite: Bool
+    var watched: Bool
 
-    init(dto: MovieDTO) {
-        self.id = dto.id
-        self.adult = dto.adult
-        self.backdropPath = dto.backdropPath
-        self.genreIDs = dto.genreIDs ?? dto.genres?.map { $0.id } ?? []
-        self.originalLanguage = dto.originalLanguage
-        self.originalTitle = dto.originalTitle
-        self.overview = dto.overview
-        self.popularity = dto.popularity
-        self.posterPath = dto.posterPath
-        self.releaseDate = dto.releaseDate
-        self.title = dto.title
-        self.video = dto.video
-        self.voteAverage = dto.voteAverage
-        self.voteCount = dto.voteCount
+    init(
+        id: Int,
+        adult: Bool,
+        backdropPath: String? = nil,
+        genreIDs: [Int] = [],
+        originalLanguage: String,
+        originalTitle: String,
+        overview: String,
+        popularity: Double,
+        posterPath: String? = nil,
+        releaseDate: String,
+        title: String,
+        favorite: Bool = false,
+        watched: Bool = false
+    ) {
+        self.id = id
+        self.adult = adult
+        self.backdropPath = backdropPath
+        self.genreIDs = genreIDs
+        self.originalLanguage = originalLanguage
+        self.originalTitle = originalTitle
+        self.overview = overview
+        self.popularity = popularity
+        self.posterPath = posterPath
+        self.releaseDate = releaseDate
+        self.title = title
+        self.favorite = favorite
+        self.watched = watched
+    }
+
+    // Convenience initializer for converting from DTO
+    convenience init(dto: MovieDTO) {
+        self.init(
+            id: dto.id,
+            adult: dto.adult,
+            backdropPath: dto.backdropPath,
+            genreIDs: dto.genreIDs ?? dto.genres?.map { $0.id } ?? [],
+            originalLanguage: dto.originalLanguage,
+            originalTitle: dto.originalTitle,
+            overview: dto.overview,
+            popularity: dto.popularity,
+            posterPath: dto.posterPath,
+            releaseDate: dto.releaseDate,
+            title: dto.title
+        )
     }
 }

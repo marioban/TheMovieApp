@@ -9,6 +9,8 @@ import SwiftUI
 
 struct MovieDetailsView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+    let movie: Movie
     let imageUrl: String
     let movieTitle: String
     let releaseDate: String
@@ -88,7 +90,7 @@ struct MovieDetailsView: View {
                 }
                 Spacer()
                 
-                MovieButtonsView()
+                MovieButtonsView(movie: movie)
                     .frame(width: 200, height: 100)
             }
                 .padding(.leading,8)

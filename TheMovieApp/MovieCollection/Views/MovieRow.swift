@@ -14,7 +14,7 @@ struct MovieRow: View {
         NavigationLink(destination: {
             if let posterPath = movie.posterPath {
                 MovieDetailsView(
-                    imageUrl: "https://media.themoviedb.org/t/p/w500/\(posterPath)",
+                    movie: movie, imageUrl: "https://media.themoviedb.org/t/p/w500/\(posterPath)",
                     movieTitle: movie.title,
                     releaseDate: movie.releaseDate,
                     overview: movie.overview
