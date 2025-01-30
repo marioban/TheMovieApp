@@ -15,6 +15,7 @@ struct MovieDetailsView: View {
     let movieTitle: String
     let releaseDate: String
     let overview: String
+    let repository: MovieRepository // ✅ Add repository
 
     private var releaseYear: String {
         let dateFormatter = DateFormatter()
@@ -25,8 +26,7 @@ struct MovieDetailsView: View {
         }
         return "N/A"
     }
-    
-    
+
     var body: some View {
         ScrollView {
             VStack(alignment: .center, spacing: 16) {
@@ -90,7 +90,7 @@ struct MovieDetailsView: View {
                 }
                 Spacer()
                 
-                MovieButtonsView(movie: movie)
+                MovieButtonsView(movie: movie, repository: repository) // ✅ Pass repository
                     .frame(width: 200, height: 100)
             }
                 .padding(.leading,8)

@@ -9,13 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct FavoritesView: View {
+    @ObservedObject var repository: MovieRepository // ✅ Keep repository
     @State private var selected = 0
-    @Environment(\.modelContext) private var modelContext
-    @StateObject private var viewModel: FavoritesViewModel
-
-    init() {
-        _viewModel = StateObject(wrappedValue: FavoritesViewModel(modelContext: nil))
-    }
 
     var body: some View {
         NavigationView {
@@ -23,34 +18,44 @@ struct FavoritesView: View {
                 FavoritesHeaderView(selected: $selected)
 
                 if selected == 0 {
-                    if viewModel.favoriteMovies.isEmpty {
+                    if repository.getFavoriteMovies().isEmpty {
                         FavoritesEmptyStateView(imageName: "star.fill", message: "No favorite movies found.")
                     } else {
-                        List(viewModel.favoriteMovies) { movie in
-                            FavoriteMovieItemView(
-                                movie: movie,
-                                onToggleFavorite: { viewModel.toggleFavorite(for: movie) },
-                                onToggleWatched: { viewModel.toggleWatched(for: movie) }
-                            )
+                        ScrollView {
+                            LazyVStack {
+                                ForEach(repository.getFavoriteMovies()) { movie in
+                                    MovieRow(movie: movie, repository: repository)
+                                        .swipeActions {
+                                            Button(role: .destructive) {
+                                                repository.toggleFavorite(movie: movie) // ✅ Removes from favorites and updates collection
+                                            } label: {
+                                                Label("Remove", systemImage: "trash")
+                                            }
+                                        }
+                                }
+                            }
                         }
                     }
                 } else {
-                    if viewModel.watchedMovies.isEmpty {
+                    if repository.getWatchedMovies().isEmpty {
                         FavoritesEmptyStateView(imageName: "checkmark.circle.fill", message: "No watched movies found.")
                     } else {
-                        List(viewModel.watchedMovies) { movie in
-                            FavoriteMovieItemView(
-                                movie: movie,
-                                onToggleFavorite: { viewModel.toggleFavorite(for: movie) },
-                                onToggleWatched: { viewModel.toggleWatched(for: movie) }
-                            )
+                        ScrollView {
+                            LazyVStack {
+                                ForEach(repository.getWatchedMovies()) { movie in
+                                    MovieRow(movie: movie, repository: repository)
+                                        .swipeActions {
+                                            Button(role: .destructive) {
+                                                repository.toggleWatched(movie: movie) // ✅ Removes from watched and updates collection
+                                            } label: {
+                                                Label("Remove", systemImage: "trash")
+                                            }
+                                        }
+                                }
+                            }
                         }
                     }
                 }
-            }
-            .onAppear {
-                viewModel.setModelContext(modelContext)
-                viewModel.loadMovies()
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {

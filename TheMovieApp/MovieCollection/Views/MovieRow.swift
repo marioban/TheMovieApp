@@ -9,22 +9,24 @@ import SwiftUI
 
 struct MovieRow: View {
     let movie: Movie
-    
+    let repository: MovieRepository // ✅ Add repository
+
     var body: some View {
         NavigationLink(destination: {
             if let posterPath = movie.posterPath {
                 MovieDetailsView(
-                    movie: movie, imageUrl: "https://media.themoviedb.org/t/p/w500/\(posterPath)",
+                    movie: movie,
+                    imageUrl: "https://media.themoviedb.org/t/p/w500/\(posterPath)",
                     movieTitle: movie.title,
                     releaseDate: movie.releaseDate,
-                    overview: movie.overview
+                    overview: movie.overview, repository: repository
                 )
             } else {
                 Text("Movie Details Unavailable")
                     .foregroundColor(.red)
             }
         }) {
-            MovieItemCardView(movie: movie)
+            MovieItemCardView(movie: movie, repository: repository) // ✅ Pass repository
                 .padding(.horizontal)
                 .padding(.bottom, 8)
         }

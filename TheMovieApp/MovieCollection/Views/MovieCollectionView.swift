@@ -9,17 +9,20 @@ import SwiftUI
 import SwiftData
 
 struct MovieCollectionView: View {
+    @ObservedObject var repository: MovieRepository
     @StateObject private var viewModel: MovieCollectionViewModel
 
-    init() {
-        _viewModel = StateObject(wrappedValue: MovieCollectionViewModel(apiService: APIService()))
+    init(repository: MovieRepository) {
+        self.repository = repository
+        _viewModel = StateObject(wrappedValue: MovieCollectionViewModel(apiService: APIService(), repository: repository))
     }
 
     var body: some View {
         NavigationView {
             VStack {
                 MovieListView(
-                    movies: viewModel.movies,
+                    movies: repository.movies, // ✅ Now observes repository.movies
+                    repository: repository,
                     isLoadingNextPage: viewModel.isLoadingNextPage
                 ) { movie in
                     loadNextPageIfNeeded(for: movie)

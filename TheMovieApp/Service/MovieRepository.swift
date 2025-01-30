@@ -8,30 +8,61 @@
 import SwiftUI
 import SwiftData
 
-protocol MovieRepositoryProtocol {
+protocol MovieRepositoryProtocol: ObservableObject {
+    var movies: [Movie] { get }
     func getFavoriteMovies() -> [Movie]
+    func getWatchedMovies() -> [Movie]
+    func saveMovies(_ movies: [Movie])
     func toggleFavorite(movie: Movie)
     func toggleWatched(movie: Movie)
 }
 
-class MovieRepository: MovieRepositoryProtocol {
+class MovieRepository: ObservableObject, MovieRepositoryProtocol {
     private let modelContext: ModelContext
+    @Published var movies: [Movie] = []
 
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
+        loadMovies()
+    }
+
+    func loadMovies() {
+        let descriptor = FetchDescriptor<Movie>()
+        movies = (try? modelContext.fetch(descriptor)) ?? []
+        objectWillChange.send() // ✅ Notify views of updates
     }
 
     func getFavoriteMovies() -> [Movie] {
-        return []
+        return movies.filter { $0.favorite }
+    }
+
+    func getWatchedMovies() -> [Movie] {
+        return movies.filter { $0.watched }
+    }
+
+    func saveMovies(_ movies: [Movie]) { // ✅ Change from saveMovie(_ movie: Movie)
+        for movie in movies {
+            if !isMovieSaved(movie) {
+                modelContext.insert(movie)
+            }
+        }
+        try? modelContext.save()
+        loadMovies() // ✅ Ensure update reflects everywhere
+    }
+
+    private func isMovieSaved(_ movie: Movie) -> Bool {
+        return movies.contains { $0.id == movie.id }
     }
 
     func toggleFavorite(movie: Movie) {
         movie.favorite.toggle()
         try? modelContext.save()
+        loadMovies() // ✅ Ensure update reflects everywhere
     }
 
     func toggleWatched(movie: Movie) {
         movie.watched.toggle()
         try? modelContext.save()
+        loadMovies() // ✅ Ensure update reflects everywhere
     }
 }

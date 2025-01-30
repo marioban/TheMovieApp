@@ -10,26 +10,23 @@ import SwiftData
 
 struct MainTabView: View {
     @Environment(\.modelContext) private var modelContext
+
     var body: some View {
+        let repository = MovieRepository(modelContext: modelContext)
+
         TabView {
-            
-            MovieCollectionView()
+            MovieCollectionView(repository: repository)
                 .tabItem {
                     Image(systemName: "movieclapper")
                         .imageScale(.large)
                     Text("Movie Collection")
                 }
-            
-            FavoritesView()
+
+            FavoritesView(repository: repository)
                 .tabItem {
                     Image(systemName: "star.fill")
                     Text("Favorites")
                 }
-            
         }
     }
-}
-
-#Preview {
-    MainTabView()
 }

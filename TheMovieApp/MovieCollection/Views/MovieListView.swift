@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MovieListView: View {
     let movies: [Movie]
+    let repository: MovieRepository // ✅ Add repository
     let isLoadingNextPage: Bool
     let onAppearAction: (Movie) -> Void
 
@@ -16,7 +17,7 @@ struct MovieListView: View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 16) {
                 ForEach(movies, id: \.id) { movie in
-                    MovieRow(movie: movie)
+                    MovieRow(movie: movie, repository: repository) // ✅ Pass repository
                         .onAppear {
                             onAppearAction(movie)
                         }

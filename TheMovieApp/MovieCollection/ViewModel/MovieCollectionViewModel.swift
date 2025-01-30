@@ -14,11 +14,14 @@ class MovieCollectionViewModel: ObservableObject {
     @Published var isLoadingNextPage: Bool = false
 
     private let apiService: APIServiceProtocol
+    private let repository: MovieRepository // ✅ Add repository
     private var currentPage = 1
     private var canLoadMorePages = true
 
-    init(apiService: APIServiceProtocol) {
+    init(apiService: APIServiceProtocol, repository: MovieRepository) {
         self.apiService = apiService
+        self.repository = repository
+        self.movies = repository.movies
     }
 
     func fetchTopRatedMovies(page: Int) async {
@@ -30,13 +33,14 @@ class MovieCollectionViewModel: ObservableObject {
             if newMovies.isEmpty {
                 canLoadMorePages = false
             } else {
-                movies.append(contentsOf: newMovies)
+                repository.saveMovies(newMovies) // ✅ Use `saveMovies(_:)` instead of `saveMovie(_:)`
+                movies = repository.movies // ✅ Update movies from repository
                 currentPage = page
             }
         } catch {
             print("Error fetching top-rated movies: \(error)")
         }
-        
+
         isLoadingNextPage = false
     }
 
@@ -47,4 +51,3 @@ class MovieCollectionViewModel: ObservableObject {
         }
     }
 }
-
