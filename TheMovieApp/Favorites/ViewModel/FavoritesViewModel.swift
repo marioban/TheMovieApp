@@ -61,7 +61,7 @@ class FavoritesViewModel: ObservableObject {
         guard let modelContext else { return }
         do {
             try modelContext.save()
-            loadMovies() // Refresh UI
+            loadMovies() 
         } catch {
             print("❌ Failed to save changes: \(error.localizedDescription)")
         }

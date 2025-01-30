@@ -1,0 +1,11 @@
+//
+//  Config.xcconfig
+//  TheMovieApp
+//
+//  Created by Mario Ban on 30.01.2025..
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+API_KEY=eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MTI0YTMzZmRiMDBlMzFiNGM4MTc0M2ZiYTdiMTdmZiIsIm5iZiI6MTY3MTAzOTIzNS4xODEsInN1YiI6IjYzOWEwOTAzM2Q0M2UwMDA3Y2Q1NTgyZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.RmBps77IC8qQnZDwwJ-wmCoxx7yR5pb63nF76xi1_nM

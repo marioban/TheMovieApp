@@ -37,7 +37,7 @@ enum APIError: Error, LocalizedError {
 // MARK: - APIConfig
 struct APIConfig {
     static let baseURL = "https://api.themoviedb.org/3"
-    static let bearerToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MTI0YTMzZmRiMDBlMzFiNGM4MTc0M2ZiYTdiMTdmZiIsIm5iZiI6MTY3MTAzOTIzNS4xODEsInN1YiI6IjYzOWEwOTAzM2Q0M2UwMDA3Y2Q1NTgyZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.RmBps77IC8qQnZDwwJ-wmCoxx7yR5pb63nF76xi1_nM"
+    static let bearerToken = Bundle.main.infoDictionary?["API_KEY"] as? String
 }
 
 // MARK: - APIService Protocol
@@ -46,13 +46,14 @@ protocol APIServiceProtocol {
     func fetchSimilarMovies(movieID: Int, page: Int) async throws -> [Movie]
     func fetchGenres() async throws -> [Genre]
     func fetchMovieDetails(movieID: Int) async throws -> Movie
+    func fetchTotalPages() async throws -> Int
 }
 
 // MARK: - APIService
 @APIServiceActor
 class APIService: APIServiceProtocol {
     private let baseURL = APIConfig.baseURL
-    private let authorizationHeader = "Bearer \(APIConfig.bearerToken)"
+    private let authorizationHeader = "Bearer \(APIConfig.bearerToken ?? "")"
     
     private func createRequest(endpoint: String, queryItems: [URLQueryItem]) throws -> URLRequest {
         guard let url = URL(string: "\(baseURL)\(endpoint)"),
@@ -92,6 +93,15 @@ class APIService: APIServiceProtocol {
         ]
         let response = try await fetchData(endpoint: "/movie/top_rated", queryItems: queryItems, responseType: MovieResponse.self)
         return response.results.map { Movie(dto: $0) }
+    }
+
+    func fetchTotalPages() async throws -> Int {
+        let queryItems = [
+            URLQueryItem(name: "language", value: "en-US"),
+            URLQueryItem(name: "page", value: "1")
+        ]
+        let response = try await fetchData(endpoint: "/movie/top_rated", queryItems: queryItems, responseType: MovieResponse.self)
+        return response.totalPages
     }
 
     func fetchSimilarMovies(movieID: Int, page: Int = 1) async throws -> [Movie] {

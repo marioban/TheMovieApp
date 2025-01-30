@@ -21,8 +21,8 @@ struct MovieCollectionView: View {
         NavigationView {
             VStack {
                 MovieListView(
-                    movies: repository.movies, // ✅ Now observes repository.movies
-                    repository: repository,
+                    movies: repository.movies,
+                    repository: repository, 
                     isLoadingNextPage: viewModel.isLoadingNextPage
                 ) { movie in
                     loadNextPageIfNeeded(for: movie)

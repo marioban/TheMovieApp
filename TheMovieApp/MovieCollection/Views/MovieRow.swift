@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MovieRow: View {
     let movie: Movie
-    let repository: MovieRepository // ✅ Add repository
+    let repository: MovieRepository
 
     var body: some View {
         NavigationLink(destination: {
@@ -26,7 +26,7 @@ struct MovieRow: View {
                     .foregroundColor(.red)
             }
         }) {
-            MovieItemCardView(movie: movie, repository: repository) // ✅ Pass repository
+            MovieItemCardView(movie: movie, repository: repository) 
                 .padding(.horizontal)
                 .padding(.bottom, 8)
         }

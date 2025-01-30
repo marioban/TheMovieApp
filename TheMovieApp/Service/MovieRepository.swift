@@ -29,7 +29,7 @@ class MovieRepository: ObservableObject, MovieRepositoryProtocol {
     func loadMovies() {
         let descriptor = FetchDescriptor<Movie>()
         movies = (try? modelContext.fetch(descriptor)) ?? []
-        objectWillChange.send() // ✅ Notify views of updates
+        objectWillChange.send() 
     }
 
     func getFavoriteMovies() -> [Movie] {
@@ -40,14 +40,14 @@ class MovieRepository: ObservableObject, MovieRepositoryProtocol {
         return movies.filter { $0.watched }
     }
 
-    func saveMovies(_ movies: [Movie]) { // ✅ Change from saveMovie(_ movie: Movie)
+    func saveMovies(_ movies: [Movie]) {
         for movie in movies {
             if !isMovieSaved(movie) {
                 modelContext.insert(movie)
             }
         }
         try? modelContext.save()
-        loadMovies() // ✅ Ensure update reflects everywhere
+        loadMovies()
     }
 
     private func isMovieSaved(_ movie: Movie) -> Bool {
@@ -57,12 +57,12 @@ class MovieRepository: ObservableObject, MovieRepositoryProtocol {
     func toggleFavorite(movie: Movie) {
         movie.favorite.toggle()
         try? modelContext.save()
-        loadMovies() // ✅ Ensure update reflects everywhere
+        loadMovies()
     }
 
     func toggleWatched(movie: Movie) {
         movie.watched.toggle()
         try? modelContext.save()
-        loadMovies() // ✅ Ensure update reflects everywhere
+        loadMovies()
     }
 }

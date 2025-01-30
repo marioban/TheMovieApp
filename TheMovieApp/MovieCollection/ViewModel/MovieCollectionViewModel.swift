@@ -14,7 +14,7 @@ class MovieCollectionViewModel: ObservableObject {
     @Published var isLoadingNextPage: Bool = false
 
     private let apiService: APIServiceProtocol
-    private let repository: MovieRepository // ✅ Add repository
+    private let repository: MovieRepository
     private var currentPage = 1
     private var canLoadMorePages = true
 
@@ -33,8 +33,8 @@ class MovieCollectionViewModel: ObservableObject {
             if newMovies.isEmpty {
                 canLoadMorePages = false
             } else {
-                repository.saveMovies(newMovies) // ✅ Use `saveMovies(_:)` instead of `saveMovie(_:)`
-                movies = repository.movies // ✅ Update movies from repository
+                repository.saveMovies(newMovies)
+                movies = repository.movies
                 currentPage = page
             }
         } catch {

@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct FavoritesView: View {
-    @ObservedObject var repository: MovieRepository // ✅ Keep repository
+    @ObservedObject var repository: MovieRepository 
     @State private var selected = 0
 
     var body: some View {
@@ -27,7 +27,7 @@ struct FavoritesView: View {
                                     MovieRow(movie: movie, repository: repository)
                                         .swipeActions {
                                             Button(role: .destructive) {
-                                                repository.toggleFavorite(movie: movie) // ✅ Removes from favorites and updates collection
+                                                repository.toggleFavorite(movie: movie)
                                             } label: {
                                                 Label("Remove", systemImage: "trash")
                                             }
@@ -46,7 +46,7 @@ struct FavoritesView: View {
                                     MovieRow(movie: movie, repository: repository)
                                         .swipeActions {
                                             Button(role: .destructive) {
-                                                repository.toggleWatched(movie: movie) // ✅ Removes from watched and updates collection
+                                                repository.toggleWatched(movie: movie)
                                             } label: {
                                                 Label("Remove", systemImage: "trash")
                                             }

@@ -15,7 +15,7 @@ struct MovieDetailsView: View {
     let movieTitle: String
     let releaseDate: String
     let overview: String
-    let repository: MovieRepository // ✅ Add repository
+    let repository: MovieRepository
 
     private var releaseYear: String {
         let dateFormatter = DateFormatter()
