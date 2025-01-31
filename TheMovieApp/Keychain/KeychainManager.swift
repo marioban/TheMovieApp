@@ -12,17 +12,12 @@ final class KeychainManager {
     let keychain: KeychainSwift
     
     init() {
-        let keychain = KeychainSwift()
+        self.keychain = KeychainSwift()
         keychain.synchronizable = true
-        self.keychain = keychain
     }
     
-    func set(_ value: String, key: String) {
-        keychain.set(value, forKey: key)
-    }
-    
-    func get(_ key: String) -> String? {
-        keychain.get(key)
+    func getAPIKey() -> String? {
+        AppStateManager.shared.getAPIKey()
     }
 }
 

@@ -15,22 +15,9 @@
 		C6EF4F1A2D48BCDD006C4740 /* TheMovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheMovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		C61264142D4C13DE00802AEF /* Exceptions for "TheMovieApp" folder in "TheMovieApp" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			assetTagsByRelativePath = {
-				Keychain/Config.xcconfig = (APIKeys, );
-			};
-			target = C6EF4F192D48BCDD006C4740 /* TheMovieApp */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C6EF4F1C2D48BCDD006C4740 /* TheMovieApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				C61264142D4C13DE00802AEF /* Exceptions for "TheMovieApp" folder in "TheMovieApp" target */,
-			);
 			path = TheMovieApp;
 			sourceTree = "<group>";
 		};
@@ -99,9 +86,6 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				KnownAssetTags = (
-					APIKeys,
-				);
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
