@@ -44,6 +44,7 @@ final class Movie: Identifiable, ObservableObject {
     var adult: Bool
     var backdropPath: String?
     var genreIDs: [Int]
+    @Transient var genres: [Genre]?
     var originalLanguage: String
     var originalTitle: String
     var overview: String
@@ -67,7 +68,8 @@ final class Movie: Identifiable, ObservableObject {
         releaseDate: String,
         title: String,
         favorite: Bool = false,
-        watched: Bool = false
+        watched: Bool = false,
+        genres: [Genre]? = nil
     ) {
         self.id = id
         self.adult = adult
@@ -82,6 +84,7 @@ final class Movie: Identifiable, ObservableObject {
         self.title = title
         self.favorite = favorite
         self.watched = watched
+        self.genres = genres
     }
 
     convenience init(dto: MovieDTO) {
@@ -96,7 +99,8 @@ final class Movie: Identifiable, ObservableObject {
             popularity: dto.popularity,
             posterPath: dto.posterPath,
             releaseDate: dto.releaseDate,
-            title: dto.title
+            title: dto.title,
+            genres: dto.genres 
         )
     }
 }

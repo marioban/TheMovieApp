@@ -11,6 +11,7 @@ struct MovieInfoView: View {
     let movieTitle: String
     let releaseYear: String
     let overview: String
+    let genres: [String]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -19,6 +20,19 @@ struct MovieInfoView: View {
                 .bold()
                 .foregroundColor(.white)
                 .padding(.horizontal)
+            
+            if !genres.isEmpty {
+                Text("Genres:")
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(.white)
+                    .padding(.horizontal)
+                Text(genres.joined(separator: ", "))
+                    .font(.title3)
+                    .foregroundColor(.white)
+                    .padding(.horizontal)
+            }
+            
             
             Text("Release year:")
                 .font(.title2)
@@ -29,6 +43,7 @@ struct MovieInfoView: View {
                 .font(.title3)
                 .foregroundColor(.white)
                 .padding(.horizontal)
+            
             
             Text("Description:")
                 .font(.title2)

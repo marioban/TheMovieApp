@@ -34,6 +34,7 @@ class MovieDetailsViewModel: ObservableObject {
         do {
             let fetchedMovie = try await apiService.fetchMovieDetails(movieID: movieID)
             if let repoMovie = repository.getMovie(by: fetchedMovie.id) {
+                repoMovie.genres = fetchedMovie.genres
                 movie = repoMovie
             } else {
                 repository.saveMovies([fetchedMovie])

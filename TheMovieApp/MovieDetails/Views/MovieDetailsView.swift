@@ -45,7 +45,7 @@ struct MovieDetailsView: View {
         ScrollView {
             VStack(alignment: .center, spacing: 16) {
                 MoviePosterView(imageUrl: imageUrl)
-                MovieInfoView(movieTitle: movie.title, releaseYear: releaseYear, overview: movie.overview)
+                MovieInfoView(movieTitle: movie.title, releaseYear: releaseYear, overview: movie.overview, genres: movie.genres?.map{ $0.name} ?? [])
                 SimilarMoviesView(viewModel: viewModel, repository: repository)
             }
             .padding(.bottom)
@@ -59,8 +59,10 @@ struct MovieDetailsView: View {
         )
         .onAppear {
             Task {
+                await viewModel.fetchMovieDetails()
                 await viewModel.fetchSimilarMovies(page: 1)
             }
         }
+
     }
 }
