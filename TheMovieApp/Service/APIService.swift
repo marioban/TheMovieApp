@@ -27,6 +27,11 @@ protocol APIServiceProtocol {
 @APIServiceActor
 class APIService: APIServiceProtocol {
     private let baseURL = APIConfig.baseURL
+    private let session: URLSession
+    
+    init(session: URLSession = URLSession.shared) {
+        self.session = session
+    }
     
     private var authorizationHeader: String {
         if let apiKey = AppStateManager.shared.getAPIKey() {
@@ -85,8 +90,6 @@ class APIService: APIServiceProtocol {
     }
     
     func fetchSimilarMovies(movieID: Int, page: Int = 1) async throws -> [Movie] {
-        print("🔍 API Call: fetchSimilarMovies for movieID: \(movieID), page: \(page)")
-        
         let queryItems = [
             URLQueryItem(name: "language", value: "en-US"),
             URLQueryItem(name: "page", value: "\(page)")
@@ -94,9 +97,6 @@ class APIService: APIServiceProtocol {
         
         do {
             let response = try await fetchData(endpoint: "/movie/\(movieID)/similar", queryItems: queryItems, responseType: MovieResponse.self)
-            print("✅ API Response received:", response.results.count)
-            
-            // Debugging each movie received
             response.results.forEach { movie in
                 print("🎬 Movie: \(movie.title) (\(movie.releaseDate))")
             }
@@ -107,7 +107,7 @@ class APIService: APIServiceProtocol {
             throw error
         }
     }
-
+    
     
     func fetchGenres() async throws -> [Genre] {
         let queryItems = [

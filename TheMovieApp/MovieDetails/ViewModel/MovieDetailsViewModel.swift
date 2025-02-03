@@ -18,10 +18,10 @@ class MovieDetailsViewModel: ObservableObject {
     
     private let movieID: Int
     private let apiService: APIService
-    private let modelContext: ModelContext
+    private let modelContext: ModelContextProtocol
     private let repository: MovieRepository
     
-    init(movieID: Int, apiService: APIService, modelContext: ModelContext, repository: MovieRepository) {
+    init(movieID: Int, apiService: APIService, modelContext: ModelContextProtocol, repository: MovieRepository) {
         self.movieID = movieID
         self.apiService = apiService
         self.modelContext = modelContext

@@ -8,6 +8,14 @@
 import SwiftUI
 import SwiftData
 
+protocol ModelContextProtocol {
+    func fetch<T>(_ descriptor: FetchDescriptor<T>) throws -> [T]
+    func insert(_ object: Movie)
+    func save() throws
+}
+
+extension ModelContext: ModelContextProtocol { }
+
 protocol MovieRepositoryProtocol: ObservableObject {
     var movies: [Movie] { get }
     func getFavoriteMovies() -> [Movie]
@@ -20,10 +28,10 @@ protocol MovieRepositoryProtocol: ObservableObject {
 
 class MovieRepository: ObservableObject, MovieRepositoryProtocol {
     
-    let modelContext: ModelContext
+    let modelContext: ModelContextProtocol
     @Published var movies: [Movie] = []
 
-    init(modelContext: ModelContext) {
+    init(modelContext: ModelContextProtocol) {
         self.modelContext = modelContext
         loadMovies()
     }
@@ -35,7 +43,7 @@ class MovieRepository: ObservableObject, MovieRepositoryProtocol {
     func loadMovies() {
         let descriptor = FetchDescriptor<Movie>()
         movies = (try? modelContext.fetch(descriptor)) ?? []
-        objectWillChange.send() 
+        objectWillChange.send()
     }
 
     func getFavoriteMovies() -> [Movie] {
@@ -57,7 +65,7 @@ class MovieRepository: ObservableObject, MovieRepositoryProtocol {
     }
 
     private func isMovieSaved(_ movie: Movie) -> Bool {
-        return movies.contains { $0.id == movie.id }
+        return self.movies.contains { $0.id == movie.id }
     }
 
     func toggleFavorite(movie: Movie) {
