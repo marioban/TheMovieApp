@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct MovieCollectionView: View {
     @ObservedObject var repository: MovieRepository
@@ -22,40 +21,29 @@ struct MovieCollectionView: View {
             VStack {
                 MovieListView(
                     movies: repository.movies,
-                    repository: repository, 
-                    isLoadingNextPage: viewModel.isLoadingNextPage
-                ) { movie in
-                    loadNextPageIfNeeded(for: movie)
-                }
+                    repository: repository,
+                    isLoadingNextPage: viewModel.isLoadingNextPage,
+                    loadNextPage: { movie in
+                        Task { await viewModel.loadNextPageIfNeeded(for: movie) }
+                    }
+                )
                 .refreshable {
-                    await fetchMovies()
+                    await viewModel.fetchTopRatedMovies(page: 1)
                 }
             }
             .navigationTitle("Top Rated Movies")
             .onAppear {
-                Task {
-                    await fetchMovies()
-                }
+                Task { await viewModel.fetchTopRatedMovies(page: 1) }
             }
         }
-        .customBackground()
+        .customBackground() 
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Text("Top rated")
                     .font(.largeTitle)
                     .bold()
-                    .foregroundStyle(Color.white)
+                    .foregroundStyle(.white)
             }
-        }
-    }
-
-    private func fetchMovies() async {
-        await viewModel.fetchTopRatedMovies(page: 1)
-    }
-
-    private func loadNextPageIfNeeded(for movie: Movie) {
-        Task {
-            await viewModel.loadNextPageIfNeeded(currentMovie: movie)
         }
     }
 }

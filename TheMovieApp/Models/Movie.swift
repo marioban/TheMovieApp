@@ -39,7 +39,7 @@ struct MovieDTO: Decodable {
 }
 
 @Model
-final class Movie: Identifiable {
+final class Movie: Identifiable, ObservableObject {
     var id: Int
     var adult: Bool
     var backdropPath: String?

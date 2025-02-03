@@ -6,11 +6,10 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct MovieButtonsView: View {
-    let movie: Movie
-    let repository: MovieRepository 
+    @ObservedObject var movie: Movie
+    let repository: MovieRepository
 
     var body: some View {
         HStack {
@@ -18,8 +17,8 @@ struct MovieButtonsView: View {
                 repository.toggleFavorite(movie: movie)
             } label: {
                 ZStack {
-                    favoriteImage(Image(systemName: "star.fill"), show: movie.favorite)
-                    favoriteImage(Image(systemName: "star"), show: !movie.favorite)
+                    iconImage(systemName: "star.fill", isActive: movie.favorite)
+                    iconImage(systemName: "star", isActive: !movie.favorite)
                 }
             }
 
@@ -27,29 +26,20 @@ struct MovieButtonsView: View {
                 repository.toggleWatched(movie: movie)
             } label: {
                 ZStack {
-                    watchedImage(Image(systemName: "checkmark.seal.fill"), show: movie.watched)
-                    watchedImage(Image(systemName: "checkmark.seal"), show: !movie.watched)
+                    iconImage(systemName: "checkmark.seal.fill", isActive: movie.watched)
+                    iconImage(systemName: "checkmark.seal", isActive: !movie.watched)
                 }
             }
         }
         .frame(width: 200)
     }
 
-    func favoriteImage(_ image: Image, show: Bool) -> some View {
-        image
+    private func iconImage(systemName: String, isActive: Bool) -> some View {
+        Image(systemName: systemName)
             .tint(.teal)
             .font(.system(size: 60))
-            .scaleEffect(show ? 1 : 0)
-            .opacity(show ? 1 : 0)
-            .animation(.interpolatingSpring(stiffness: 170, damping: 15), value: show)
-    }
-
-    func watchedImage(_ image: Image, show: Bool) -> some View {
-        image
-            .tint(.teal)
-            .font(.system(size: 60))
-            .scaleEffect(show ? 1 : 0)
-            .opacity(show ? 1 : 0)
-            .animation(.interpolatingSpring(stiffness: 170, damping: 15), value: show)
+            .scaleEffect(isActive ? 1 : 0)
+            .opacity(isActive ? 1 : 0)
+            .animation(.interpolatingSpring(stiffness: 170, damping: 15), value: isActive)
     }
 }

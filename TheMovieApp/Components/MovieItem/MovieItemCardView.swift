@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MovieItemCardView: View {
-    let movie: Movie
+    @ObservedObject var movie: Movie
     let repository: MovieRepository
 
     var body: some View {
@@ -30,7 +30,6 @@ struct MovieItemCardView: View {
 
                     Text(movie.overview)
                         .font(.subheadline)
-                        .fontWeight(.regular)
                         .lineLimit(3)
                         .foregroundColor(.white)
                         .padding(.bottom, 8)
@@ -40,13 +39,11 @@ struct MovieItemCardView: View {
                         MovieButtonsView(movie: movie, repository: repository)
                     }
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .padding(.trailing, 8)
                 .padding(.vertical, 4)
             }
-            .movieItemBackground()
+            .movieItemBackground() 
             .cornerRadius(20)
         }
     }
 }
-

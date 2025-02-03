@@ -15,9 +15,11 @@ protocol MovieRepositoryProtocol: ObservableObject {
     func saveMovies(_ movies: [Movie])
     func toggleFavorite(movie: Movie)
     func toggleWatched(movie: Movie)
+    func getMovie(by id: Int) -> Movie?
 }
 
 class MovieRepository: ObservableObject, MovieRepositoryProtocol {
+    
     let modelContext: ModelContext
     @Published var movies: [Movie] = []
 
@@ -26,6 +28,10 @@ class MovieRepository: ObservableObject, MovieRepositoryProtocol {
         loadMovies()
     }
 
+    func getMovie(by id: Int) -> Movie? {
+        return movies.first(where: { $0.id == id })
+    }
+    
     func loadMovies() {
         let descriptor = FetchDescriptor<Movie>()
         movies = (try? modelContext.fetch(descriptor)) ?? []
@@ -57,12 +63,10 @@ class MovieRepository: ObservableObject, MovieRepositoryProtocol {
     func toggleFavorite(movie: Movie) {
         movie.favorite.toggle()
         try? modelContext.save()
-        loadMovies()
     }
 
     func toggleWatched(movie: Movie) {
         movie.watched.toggle()
         try? modelContext.save()
-        loadMovies()
     }
 }

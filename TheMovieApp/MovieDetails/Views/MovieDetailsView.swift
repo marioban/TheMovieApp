@@ -6,49 +6,45 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct MovieDetailsView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject var viewModel: MovieDetailsViewModel
-    
-    let movie: Movie
-    var imageUrl: String
-    var movieTitle: String
-    var releaseDate: String
-    var overview: String
-    var repository: MovieRepository
-    
-    init(movie: Movie, imageUrl: String, movieTitle: String, releaseDate: String, overview: String, repository: MovieRepository) {
+    @ObservedObject var movie: Movie
+    let repository: MovieRepository
+
+    var imageUrl: String {
+        if let poster = movie.posterPath {
+            return "https://media.themoviedb.org/t/p/w500/\(poster)"
+        }
+        return ""
+    }
+
+    init(movie: Movie, repository: MovieRepository) {
         self.movie = movie
-        self.imageUrl = imageUrl
-        self.movieTitle = movieTitle
-        self.releaseDate = releaseDate
-        self.overview = overview
         self.repository = repository
-        
         _viewModel = StateObject(wrappedValue: MovieDetailsViewModel(
             movieID: movie.id,
             apiService: APIService(),
-            modelContext: repository.modelContext
+            modelContext: repository.modelContext,
+            repository: repository
         ))
     }
-    
+
     private var releaseYear: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        if let date = dateFormatter.date(from: releaseDate) {
-            let calendar = Calendar.current
-            return "\(calendar.component(.year, from: date))"
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        if let date = formatter.date(from: movie.releaseDate) {
+            return String(Calendar.current.component(.year, from: date))
         }
         return "N/A"
     }
-    
+
     var body: some View {
         ScrollView {
             VStack(alignment: .center, spacing: 16) {
                 MoviePosterView(imageUrl: imageUrl)
-                MovieInfoView(movieTitle: movieTitle, releaseYear: releaseYear, overview: overview)
+                MovieInfoView(movieTitle: movie.title, releaseYear: releaseYear, overview: movie.overview)
                 SimilarMoviesView(viewModel: viewModel, repository: repository)
             }
             .padding(.bottom)
@@ -60,5 +56,10 @@ struct MovieDetailsView: View {
             NavigationOverlay(movie: movie, dismiss: dismiss, repository: repository),
             alignment: .topLeading
         )
+        .onAppear {
+            Task {
+                await viewModel.fetchSimilarMovies(page: 1)
+            }
+        }
     }
 }

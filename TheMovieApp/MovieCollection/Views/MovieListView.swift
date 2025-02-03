@@ -11,18 +11,17 @@ struct MovieListView: View {
     let movies: [Movie]
     let repository: MovieRepository
     let isLoadingNextPage: Bool
-    let onAppearAction: (Movie) -> Void
+    let loadNextPage: (Movie) -> Void
 
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 16) {
-                ForEach(movies, id: \.id) { movie in
+                ForEach(movies) { movie in
                     MovieRow(movie: movie, repository: repository)
                         .onAppear {
-                            onAppearAction(movie)
+                            loadNextPage(movie)
                         }
                 }
-
                 if isLoadingNextPage {
                     ProgressView()
                         .padding()

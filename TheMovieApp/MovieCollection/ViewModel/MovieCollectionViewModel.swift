@@ -10,7 +10,6 @@ import Combine
 
 @MainActor
 class MovieCollectionViewModel: ObservableObject {
-    @Published var movies: [Movie] = []
     @Published var isLoadingNextPage: Bool = false
 
     private let apiService: APIServiceProtocol
@@ -21,7 +20,6 @@ class MovieCollectionViewModel: ObservableObject {
     init(apiService: APIServiceProtocol, repository: MovieRepository) {
         self.apiService = apiService
         self.repository = repository
-        self.movies = repository.movies
     }
 
     func fetchTopRatedMovies(page: Int) async {
@@ -34,7 +32,6 @@ class MovieCollectionViewModel: ObservableObject {
                 canLoadMorePages = false
             } else {
                 repository.saveMovies(newMovies)
-                movies = repository.movies
                 currentPage = page
             }
         } catch {
@@ -44,8 +41,8 @@ class MovieCollectionViewModel: ObservableObject {
         isLoadingNextPage = false
     }
 
-    func loadNextPageIfNeeded(currentMovie: Movie) async {
-        guard let lastMovie = movies.last, canLoadMorePages else { return }
+    func loadNextPageIfNeeded(for currentMovie: Movie) async {
+        guard let lastMovie = repository.movies.last, canLoadMorePages else { return }
         if currentMovie.id == lastMovie.id {
             await fetchTopRatedMovies(page: currentPage + 1)
         }

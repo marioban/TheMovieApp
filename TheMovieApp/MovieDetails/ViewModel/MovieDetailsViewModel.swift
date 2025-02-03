@@ -19,18 +19,26 @@ class MovieDetailsViewModel: ObservableObject {
     private let movieID: Int
     private let apiService: APIService
     private let modelContext: ModelContext
+    private let repository: MovieRepository
     
-    init(movieID: Int, apiService: APIService, modelContext: ModelContext) {
+    init(movieID: Int, apiService: APIService, modelContext: ModelContext, repository: MovieRepository) {
         self.movieID = movieID
         self.apiService = apiService
         self.modelContext = modelContext
+        self.repository = repository
     }
     
     func fetchMovieDetails() async {
         isLoading = true
         errorMessage = nil
         do {
-            movie = try await apiService.fetchMovieDetails(movieID: movieID)
+            let fetchedMovie = try await apiService.fetchMovieDetails(movieID: movieID)
+            if let repoMovie = repository.getMovie(by: fetchedMovie.id) {
+                movie = repoMovie
+            } else {
+                repository.saveMovies([fetchedMovie])
+                movie = fetchedMovie
+            }
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -38,38 +46,25 @@ class MovieDetailsViewModel: ObservableObject {
     }
     
     func fetchSimilarMovies(page: Int) async {
-        print("✅ fetchSimilarMovies() called for page: \(page)")
-        
         isLoading = true
         errorMessage = nil
-        
         do {
-            let movies = try await apiService.fetchSimilarMovies(movieID: movieID, page: page)
-            print("✅ Movies fetched: \(movies.count)")
-            
-            DispatchQueue.main.async {
-                self.similarMovies = movies
-                print("🟢 similarMovies updated in UI: \(self.similarMovies.count)")
-            }
+            let fetchedSimilar = try await apiService.fetchSimilarMovies(movieID: movieID, page: page)
+            repository.saveMovies(fetchedSimilar)
+            similarMovies = fetchedSimilar.map { repository.getMovie(by: $0.id) ?? $0 }
         } catch {
             errorMessage = error.localizedDescription
-            print("❌ Error fetching similar movies:", errorMessage ?? "Unknown error")
         }
-        
         isLoading = false
     }
     
     func toggleFavorite() {
-        guard let movie else { return }
-        movie.favorite.toggle()
-        try? modelContext.save()
-        self.movie = movie
+        guard let movie = movie else { return }
+        repository.toggleFavorite(movie: movie)
     }
     
     func toggleWatched() {
-        guard let movie else { return }
-        movie.watched.toggle()
-        try? modelContext.save()
-        self.movie = movie
+        guard let movie = movie else { return }
+        repository.toggleWatched(movie: movie)
     }
 }
