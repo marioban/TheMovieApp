@@ -4,11 +4,11 @@ TheMovieApp is a SwiftUI-based application for browsing, favoriting, and trackin
 
 ---
 
-## Project Architecture
+# Project Architecture
 
 The application follows the MVVM (Model-View-ViewModel) architecture, ensuring separation of concerns and maintainability. Below is an overview of the folder structure:
 
-### Folder Structure
+## Folder Structure
 
 - **Components**: Contains reusable views such as `MovieButtonsView` and `MovieImageView`.
 - **Favorites**: Manages favorite movies with view models and views.
@@ -22,33 +22,34 @@ The application follows the MVVM (Model-View-ViewModel) architecture, ensuring s
 
 ---
 
-## Screenshots
+# Screenshots
 
-### Architecture Overview
+## Architecture Overview
 <img src="https://github.com/user-attachments/assets/9461d5b0-78f9-4039-88d7-abddd5896d3d" alt="Architecture Overview" width="400" height= "1500"/>
 
-### Splash Screen
+## Splash Screen
 <img src="https://github.com/user-attachments/assets/03306365-4f10-4011-8511-9e5bb3a296a7" alt="Splash Screen" width="400" />
 
-### Movie Collection
+## Movie Collection
 <img src="https://github.com/user-attachments/assets/50343be1-3801-4dce-8f16-87cdd529eaff" alt="Movie Collection" width="400" />
 
-### Movie Details
-<img src="https://github.com/user-attachments/assets/aa674403-c5a4-4870-ac70-0d560835180f" alt="Movie Details" width="400" />
+## Movie Details
+<img src="https://github.com/user-attachments/assets/50c80e08-73c8-41a7-b1c5-190dd0653a9b" alt="Movie Details 1" width="400" />
+<img src="https://github.com/user-attachments/assets/4b30a52f-7dc8-47ef-b58d-7ef35ed3b452" alt="Movie Details 2" width="400" />
 
-### Similar Movies
-<img src="https://github.com/user-attachments/assets/68da03db-2bbe-4be9-93a4-fa87785cc8b3" alt="Similar Movies" width="400" />
+## Similar Movies
+<img src="https://github.com/user-attachments/assets/42c1b886-b873-41ac-9b1a-1dbf57b26156" alt="Similar Movies" width="400" />
 
-### Favorites Tab
+## Favorites Tab
 <img src="https://github.com/user-attachments/assets/a279f052-1bf0-4962-9597-b4e5ad3c1937" alt="Favorites Tab" width="400" />
 
-### Watched Tab
+## Watched Tab
 <img src="https://github.com/user-attachments/assets/c07e39bd-6a22-4ee8-b2cd-52767d787e5b" alt="Watched Tab" width="400" />
 
 
 ---
 
-## Features
+# Features
 
 1. **Movie Collection**: Browse a list of top-rated movies.
 2. **Movie Details**: View detailed information about a selected movie.
@@ -60,7 +61,7 @@ The application follows the MVVM (Model-View-ViewModel) architecture, ensuring s
 
 ---
 
-## Installation
+# Installation
 
 1. Clone the repository:
    ```bash
@@ -75,7 +76,7 @@ The application follows the MVVM (Model-View-ViewModel) architecture, ensuring s
 
 ---
 
-## Requirements
+# Requirements
 
 - Xcode 14.0+
 - iOS 16.0+
@@ -83,13 +84,13 @@ The application follows the MVVM (Model-View-ViewModel) architecture, ensuring s
 
 ---
 
-## Contributing
+# Contributing
 
 Contributions are welcome! Please fork the repository and create a pull request for your changes. Ensure your code follows the project's coding standards.
 
 ---
 
-## License
+# License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
 
