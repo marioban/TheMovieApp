@@ -25,36 +25,25 @@ The application follows the MVVM (Model-View-ViewModel) architecture, ensuring s
 ## Screenshots
 
 ### Architecture Overview
-![Screenshot 2025-02-03 at 12 54 46](https://github.com/user-attachments/assets/9461d5b0-78f9-4039-88d7-abddd5896d3d)
-
+<img src="https://github.com/user-attachments/assets/9461d5b0-78f9-4039-88d7-abddd5896d3d" alt="Architecture Overview" width="400" height= "1500"/>
 
 ### Splash Screen
-![Simulator Screenshot - iPhone 16 Pro - 2025-02-03 at 12 57 13](https://github.com/user-attachments/assets/03306365-4f10-4011-8511-9e5bb3a296a7)
-
+<img src="https://github.com/user-attachments/assets/03306365-4f10-4011-8511-9e5bb3a296a7" alt="Splash Screen" width="400" />
 
 ### Movie Collection
-
-![Simulator Screenshot - iPhone 16 Pro - 2025-02-03 at 12 57 15](https://github.com/user-attachments/assets/50343be1-3801-4dce-8f16-87cdd529eaff)
-
+<img src="https://github.com/user-attachments/assets/50343be1-3801-4dce-8f16-87cdd529eaff" alt="Movie Collection" width="400" />
 
 ### Movie Details
-
-![Simulator Screenshot - iPhone 16 Pro - 2025-02-03 at 12 57 40](https://github.com/user-attachments/assets/aa674403-c5a4-4870-ac70-0d560835180f)
-
+<img src="https://github.com/user-attachments/assets/aa674403-c5a4-4870-ac70-0d560835180f" alt="Movie Details" width="400" />
 
 ### Similar Movies
-
-![Simulator Screenshot - iPhone 16 Pro - 2025-02-03 at 12 57 49](https://github.com/user-attachments/assets/68da03db-2bbe-4be9-93a4-fa87785cc8b3)
-
+<img src="https://github.com/user-attachments/assets/68da03db-2bbe-4be9-93a4-fa87785cc8b3" alt="Similar Movies" width="400" />
 
 ### Favorites Tab
-
-![Simulator Screenshot - iPhone 16 Pro - 2025-02-03 at 12 58 01](https://github.com/user-attachments/assets/a279f052-1bf0-4962-9597-b4e5ad3c1937)
-
+<img src="https://github.com/user-attachments/assets/a279f052-1bf0-4962-9597-b4e5ad3c1937" alt="Favorites Tab" width="400" />
 
 ### Watched Tab
-
-![Simulator Screenshot - iPhone 16 Pro - 2025-02-03 at 12 58 17](https://github.com/user-attachments/assets/c07e39bd-6a22-4ee8-b2cd-52767d787e5b)
+<img src="https://github.com/user-attachments/assets/c07e39bd-6a22-4ee8-b2cd-52767d787e5b" alt="Watched Tab" width="400" />
 
 
 ---
