@@ -59,7 +59,7 @@ struct FavoritesView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Text("Favorites")
+                    Text(selected == 0 ? "Favorites" : "Watched")
                         .font(.largeTitle)
                         .bold()
                         .foregroundStyle(Color.white)

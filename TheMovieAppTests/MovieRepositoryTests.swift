@@ -24,7 +24,6 @@ class FakeModelContext: ModelContextProtocol {
     }
     
     func save() throws {
-        // For testing, nothing needs to be done.
     }
 }
 
