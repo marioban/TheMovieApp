@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MovieItemCardView: View {
     let movie: Movie
-    let repository: MovieRepository // ✅ Add repository
+    let repository: MovieRepository
 
     var body: some View {
         ZStack(alignment: .leading) {
@@ -37,9 +37,10 @@ struct MovieItemCardView: View {
 
                     HStack {
                         Spacer()
-                        MovieButtonsView(movie: movie, repository: repository) // ✅ Pass repository
+                        MovieButtonsView(movie: movie, repository: repository)
                     }
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .padding(.trailing, 8)
                 .padding(.vertical, 4)
             }

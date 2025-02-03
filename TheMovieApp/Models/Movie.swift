@@ -84,7 +84,6 @@ final class Movie: Identifiable {
         self.watched = watched
     }
 
-    // Convenience initializer for converting from DTO
     convenience init(dto: MovieDTO) {
         self.init(
             id: dto.id,

@@ -3,22 +3,4 @@
    uuid = "F429C478-7044-42DB-9980-B0A5A0DFD445"
    type = "1"
    version = "2.0">
-   <Breakpoints>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "49CFF8B0-2897-43BC-84A8-CFEE2E98FF41"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../../../../../var/folders/k6/2qbq8p250yx9_02lv6zy242r0000gn/T/swift-generated-sources/@__swiftmacro_11TheMovieApp0025MovieViewModelswift_jqFBgfMX38_54_06_1E4E1D25A05FDEBF5E775C7CA9F468335Ll9PredicatefMf_.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1"
-            endingLineNumber = "1"
-            landmarkName = "isMovieSaved(_:)"
-            landmarkType = "37">
-         </BreakpointContent>
-      </BreakpointProxy>
-   </Breakpoints>
 </Bucket>

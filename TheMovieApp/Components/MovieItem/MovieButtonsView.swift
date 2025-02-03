@@ -10,12 +10,12 @@ import SwiftData
 
 struct MovieButtonsView: View {
     let movie: Movie
-    let repository: MovieRepository // ✅ Add repository
+    let repository: MovieRepository 
 
     var body: some View {
         HStack {
             Button {
-                repository.toggleFavorite(movie: movie) // ✅ Use repository
+                repository.toggleFavorite(movie: movie)
             } label: {
                 ZStack {
                     favoriteImage(Image(systemName: "star.fill"), show: movie.favorite)
@@ -24,7 +24,7 @@ struct MovieButtonsView: View {
             }
 
             Button {
-                repository.toggleWatched(movie: movie) // ✅ Use repository
+                repository.toggleWatched(movie: movie)
             } label: {
                 ZStack {
                     watchedImage(Image(systemName: "checkmark.seal.fill"), show: movie.watched)
@@ -35,7 +35,6 @@ struct MovieButtonsView: View {
         .frame(width: 200)
     }
 
-    // MARK: - Animation Helpers
     func favoriteImage(_ image: Image, show: Bool) -> some View {
         image
             .tint(.teal)

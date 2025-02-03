@@ -18,7 +18,7 @@ protocol MovieRepositoryProtocol: ObservableObject {
 }
 
 class MovieRepository: ObservableObject, MovieRepositoryProtocol {
-    private let modelContext: ModelContext
+    let modelContext: ModelContext
     @Published var movies: [Movie] = []
 
     init(modelContext: ModelContext) {

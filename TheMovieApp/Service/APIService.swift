@@ -85,13 +85,29 @@ class APIService: APIServiceProtocol {
     }
     
     func fetchSimilarMovies(movieID: Int, page: Int = 1) async throws -> [Movie] {
+        print("🔍 API Call: fetchSimilarMovies for movieID: \(movieID), page: \(page)")
+        
         let queryItems = [
             URLQueryItem(name: "language", value: "en-US"),
             URLQueryItem(name: "page", value: "\(page)")
         ]
-        let response = try await fetchData(endpoint: "/movie/\(movieID)/similar", queryItems: queryItems, responseType: MovieResponse.self)
-        return response.results.map { Movie(dto: $0) }
+        
+        do {
+            let response = try await fetchData(endpoint: "/movie/\(movieID)/similar", queryItems: queryItems, responseType: MovieResponse.self)
+            print("✅ API Response received:", response.results.count)
+            
+            // Debugging each movie received
+            response.results.forEach { movie in
+                print("🎬 Movie: \(movie.title) (\(movie.releaseDate))")
+            }
+            
+            return response.results.map { Movie(dto: $0) }
+        } catch {
+            print("❌ API Error in fetchSimilarMovies:", error.localizedDescription)
+            throw error
+        }
     }
+
     
     func fetchGenres() async throws -> [Genre] {
         let queryItems = [

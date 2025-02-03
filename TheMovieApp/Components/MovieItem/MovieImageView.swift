@@ -37,6 +37,7 @@ struct MovieImageView: View {
 
                 MovieImageOverlayView(year: releaseYear)
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             PlaceholderView()
         }

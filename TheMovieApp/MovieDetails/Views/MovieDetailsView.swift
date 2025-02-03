@@ -6,17 +6,34 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MovieDetailsView: View {
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.modelContext) private var modelContext
+    @StateObject var viewModel: MovieDetailsViewModel
+    
     let movie: Movie
-    let imageUrl: String
-    let movieTitle: String
-    let releaseDate: String
-    let overview: String
-    let repository: MovieRepository
-
+    var imageUrl: String
+    var movieTitle: String
+    var releaseDate: String
+    var overview: String
+    var repository: MovieRepository
+    
+    init(movie: Movie, imageUrl: String, movieTitle: String, releaseDate: String, overview: String, repository: MovieRepository) {
+        self.movie = movie
+        self.imageUrl = imageUrl
+        self.movieTitle = movieTitle
+        self.releaseDate = releaseDate
+        self.overview = overview
+        self.repository = repository
+        
+        _viewModel = StateObject(wrappedValue: MovieDetailsViewModel(
+            movieID: movie.id,
+            apiService: APIService(),
+            modelContext: repository.modelContext
+        ))
+    }
+    
     private var releaseYear: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -26,51 +43,13 @@ struct MovieDetailsView: View {
         }
         return "N/A"
     }
-
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .center, spacing: 16) {
-                // Full-screen image
-                AsyncImage(url: URL(string: imageUrl)) { image in
-                    image
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxWidth: .infinity)
-                        .ignoresSafeArea(edges: .top)
-                } placeholder: {
-                    Rectangle()
-                        .fill(Color.gray)
-                        .frame(height: 300)
-                        .cornerRadius(12)
-                        .padding(.horizontal)
-                }
-
-                VStack(alignment: .leading, spacing: 12) {
-                    Text(movieTitle)
-                        .font(.largeTitle)
-                        .bold()
-                        .foregroundColor(.white)
-                        .padding(.horizontal)
-
-                    Text("Release year:")
-                        .font(.title2)
-                        .foregroundColor(.white)
-                        .padding(.horizontal)
-                    Text(releaseYear)
-                        .font(.title3)
-                        .foregroundColor(.white)
-                        .padding(.horizontal)
-
-                    Text("Description:")
-                        .font(.title2)
-                        .foregroundColor(.white)
-                        .padding(.horizontal)
-                    Text(overview)
-                        .font(.body)
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.leading)
-                        .padding(.horizontal)
-                }
+                MoviePosterView(imageUrl: imageUrl)
+                MovieInfoView(movieTitle: movieTitle, releaseYear: releaseYear, overview: overview)
+                SimilarMoviesView(viewModel: viewModel, repository: repository)
             }
             .padding(.bottom)
         }
@@ -78,23 +57,8 @@ struct MovieDetailsView: View {
         .background(Color.black.ignoresSafeArea())
         .navigationBarBackButtonHidden(true)
         .overlay(
-            HStack {
-                Button(action: {
-                    dismiss()
-                }) {
-                    Image(systemName: "arrow.backward")
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.black.opacity(0.6))
-                        .clipShape(Circle())
-                }
-                Spacer()
-                
-                MovieButtonsView(movie: movie, repository: repository) // ✅ Pass repository
-                    .frame(width: 200, height: 100)
-            }
-                .padding(.leading,8)
-            , alignment: .topLeading
+            NavigationOverlay(movie: movie, dismiss: dismiss, repository: repository),
+            alignment: .topLeading
         )
     }
 }
