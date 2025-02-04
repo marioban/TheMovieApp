@@ -77,4 +77,9 @@ class MovieRepository: ObservableObject, MovieRepositoryProtocol {
         movie.watched.toggle()
         try? modelContext.save()
     }
+    
+    func clearMovies() {
+        movies.removeAll()
+        objectWillChange.send()
+    }
 }

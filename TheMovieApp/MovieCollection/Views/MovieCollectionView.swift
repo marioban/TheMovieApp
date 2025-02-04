@@ -10,12 +10,12 @@ import SwiftUI
 struct MovieCollectionView: View {
     @ObservedObject var repository: MovieRepository
     @StateObject private var viewModel: MovieCollectionViewModel
-
+    
     init(repository: MovieRepository) {
         self.repository = repository
         _viewModel = StateObject(wrappedValue: MovieCollectionViewModel(apiService: APIService(), repository: repository))
     }
-
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -33,10 +33,12 @@ struct MovieCollectionView: View {
             }
             .navigationTitle("Top Rated Movies")
             .onAppear {
-                Task { await viewModel.fetchTopRatedMovies(page: 1) }
+                if repository.movies.isEmpty {
+                    Task { await viewModel.fetchTopRatedMovies(page: 1) }
+                }
             }
         }
-        .customBackground() 
+        .customBackground()
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Text("Top rated")
