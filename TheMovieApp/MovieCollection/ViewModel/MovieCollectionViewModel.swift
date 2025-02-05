@@ -41,8 +41,7 @@ class MovieCollectionViewModel: ObservableObject {
             
             let newMovies = try await apiService.fetchTopRatedMovies(page: page)
             
-            if newMovies.isEmpty {
-            } else {
+            if !newMovies.isEmpty {
                 repository.saveMovies(newMovies)
                 currentPage = page
             }
