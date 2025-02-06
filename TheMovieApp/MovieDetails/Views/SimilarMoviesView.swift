@@ -18,7 +18,6 @@ struct SimilarMoviesView: View {
                 .bold()
                 .foregroundColor(.white)
                 .padding(.horizontal)
-                .padding(.bottom, 8)
             
             if viewModel.isLoading {
                 ProgressView()
@@ -26,7 +25,7 @@ struct SimilarMoviesView: View {
             } else {
                 let movies = viewModel.similarMovies.map { repository.getMovie(by: $0.id) ?? $0 }
                 ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack(spacing: 16) {
+                    LazyHStack{
                         if movies.isEmpty {
                             Text("No similar movies found.")
                                 .foregroundColor(.blue)
@@ -41,7 +40,7 @@ struct SimilarMoviesView: View {
                             }
                         }
                     }
-                    .padding(.horizontal)
+                    .scrollTargetBehavior(.paging)
                 }
                 .frame(height: 400)
             }
